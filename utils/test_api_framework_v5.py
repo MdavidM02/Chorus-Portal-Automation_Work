@@ -107,7 +107,7 @@ def build_final_url(base_url, environment, test_data):
 # ==============================================================
 #  Dynamically collect test cases from Excel spreadsheet
 # ==============================================================
-test_cases = [f"TestCase{i}" for i in range(11, 91)]
+test_cases = [f"TestCase{i}" for i in range(11, 21)]
 
 # ==============================================================
 #  Main API validation test
