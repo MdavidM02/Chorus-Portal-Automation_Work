@@ -1,11 +1,4 @@
-import fs from 'node:fs/promises'
-// Import the module
-import { generate } from 'multiple-cucumber-html-reporter'
-import cucumberJson from 'wdio-cucumberjs-json-reporter';
-import allureReporter from '@wdio/allure-reporter';
-
-export const config = {
-    //automationProtocol: 'webdriver',  // ⬅ Force non-BiDi mode
+exports.config = {
     //
     // ====================
     // Runner Configuration
@@ -34,7 +27,6 @@ export const config = {
     exclude: [
         // 'path/to/excluded/files'
     ],
-
     //
     // ============
     // Capabilities
@@ -58,20 +50,8 @@ export const config = {
     // https://saucelabs.com/platform/platform-configurator
     //
     capabilities: [{
-        maxInstances: 1,
-        browserName: 'chrome',
-            'goog:chromeOptions': {
-                args: [
-                    '--lang=en-US', // Set Chrome UI and locale
-                    '--disable-popup-blocking',
-                    '--disable-default-apps',
-                ],
-                prefs: {
-                    'protocol_handler.external': false,
-                    'intl.accept_languages': 'en-US,en'
-                }
-            }
-        }],
+        browserName: 'chrome'
+    }],
 
     //
     // ===================
@@ -81,7 +61,6 @@ export const config = {
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
     logLevel: 'info',
-    //logLevel: 'debug',
     //
     // Set specific log levels per logger
     // loggers:
@@ -144,26 +123,12 @@ export const config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: [
-        
-        // OR like this if you want to set the folder and the language
-        [ 'cucumberjs-json', {
-                jsonFolder: 'reports/json/',
-            },
-        ],
-        ['allure', {
-        outputDir: 'allure-results',
-        useCucumberStepReporter:true,
-        disableWebdriverStepsReporting: false,
-        disableWebdriverScreenshotsReporting: false
-    }]
-    ],
+    reporters: [['allure', {outputDir: 'allure-results'}]],
 
     // If you are using Cucumber you need to specify the location of your step definitions.
     cucumberOpts: {
         // <string[]> (file/dir) require files before executing features
         require: ['./features/step-definitions/steps.js'],
-        //require: ['./features/step-definitions/**/*.js'],
         // <boolean> show full backtrace for errors
         backtrace: false,
         // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
@@ -181,13 +146,14 @@ export const config = {
         // <boolean> fail if there are any undefined or pending steps
         strict: false,
         // <string> (expression) only execute the features or scenarios with tags matching the expression
-        //tagExpression: '',
-        tags: '@regression',
+        tagExpression: '',
         // <number> timeout for step definitions
         timeout: 60000,
         // <boolean> Enable this config to treat undefined definitions as warnings.
         ignoreUndefinedDefinitions: false
     },
+
+
     //
     // =====
     // Hooks
@@ -286,11 +252,8 @@ export const config = {
      * @param {number}             result.duration  duration of scenario in milliseconds
      * @param {object}             context          Cucumber World object
      */
-    afterStep: async function (step, scenario, result, context) {
-        // cucumberJson.attach(await browser.takeScreenshot(), 'image/png');
-        await allureReporter.addAttachment("Screenshot", Buffer.from(await browser.takeScreenshot(), 'base64'),"image/png")
-
-    },
+    // afterStep: function (step, scenario, result, context) {
+    // },
     /**
      *
      * Runs after a Cucumber Scenario.
@@ -346,16 +309,8 @@ export const config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {<Object>} results object containing test results
      */
-    onComplete: function(exitCode, config, capabilities, results) {
-        generate({
-            // Required
-            // This part needs to be the same path where you store the JSON files
-            // default = '.tmp/json/'
-            jsonDir: 'reports/json/',
-            reportPath: 'reports/html',
-            // for more options see https://github.com/wswebcreation/multiple-cucumber-html-reporter#options
-          });
-    },
+    // onComplete: function(exitCode, config, capabilities, results) {
+    // },
     /**
     * Gets executed when a refresh happens.
     * @param {string} oldSessionId session ID of the old session

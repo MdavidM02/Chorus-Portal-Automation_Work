@@ -1,0 +1,19 @@
+{
+  "caseTypeID": "RedemptionCase",
+  "content": {
+    "Origin": "API",
+    "MemberExternalID" : "34567890",
+    "RedemptionItems": [
+      {
+        "Quantity":"1",
+        "RewardExternalID":"34567",
+        "VoucherCode":"4532412a"
+      },
+      {
+        "Quantity":"1",
+        "RewardExternalID":"45678",
+        "VoucherCode":"2312312a"
+      }
+    ]
+  }
+}

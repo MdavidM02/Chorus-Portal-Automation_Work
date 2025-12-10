@@ -1,0 +1,13 @@
+{
+  "objectTypeID": "Member",
+  "content": {
+    "Origin": "API",
+    "ExternalID": "34567890",
+    "DateOfBirth": "2010-07-05",
+    "EmailAddress": "Sample@email.com",
+    "FullName":"Sample Member",
+    "MobileNumber":"9876543210",
+    "JoinDateTime":"2023-05-06T16:56:27.066Z",
+    "ProgramBusinessID":"P-337UUW"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "objectTypeID": "Store",
+  "content": {
+    "Origin": "API",
+    "StoreCode": "NW-RJ450",
+    "Name": "Store NW-RJ450",
+    "Description": "Store6 Description",
+    "Address": 
+      {
+        "Street":"Street1",
+        "City":"City1",
+        "StateProvince": "State1",
+        "Country": "BRAZIL",
+        "PostalCode": "12345"
+      },
+    "IsParticipating": true
+  }
+}

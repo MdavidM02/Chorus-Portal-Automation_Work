@@ -1,0 +1,7 @@
+{
+  "objectTypeID": "SegmentCase",
+  "content": {
+    "Name": "Test segment",
+    "Description": "Test segment"
+  }
+}

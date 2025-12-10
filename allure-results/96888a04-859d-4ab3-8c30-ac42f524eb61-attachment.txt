@@ -1,0 +1,12 @@
+{
+  "objectTypeID": "Product",
+  "content": {
+    "Origin": "API",
+    "Name":"Nuggets",
+    "Description":"Nuggets",
+    "ProductCode": "19524",
+    "Brand": "Burger King",
+    "Category": "Snack",
+    "Incentivizable":true
+  }
+}

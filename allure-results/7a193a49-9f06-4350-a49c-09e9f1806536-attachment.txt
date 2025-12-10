@@ -1,0 +1,24 @@
+{
+  "dataViewParameters": {
+    "MemberExternalID": "34567891",
+    "FromDateTime": "2025-08-01T21:50:42.060Z",
+    "ToDateTime": "2025-08-15T21:50:42.060Z"
+  },
+  "query":{
+    "select":[
+      {
+        "field":"CurrencyAvailable"
+      },
+      {
+        "field":"CurrencyAwarded"
+      },
+      {
+        "field":"Type"
+      },
+      {
+         "field":"Member"
+      },
+      {"field":"MemberBalance"}
+    ]
+}
+}

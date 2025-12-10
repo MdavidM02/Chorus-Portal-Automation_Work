@@ -23,7 +23,7 @@ export const config: WebdriverIO.Config = {
     // of the config file unless it's absolute.
     //
     specs: [
-        // ToDo: define location for spec files here
+        './features/**/*.feature'
     ],
     // Patterns to exclude.
     exclude: [
@@ -52,7 +52,19 @@ export const config: WebdriverIO.Config = {
     // https://saucelabs.com/platform/platform-configurator
     //
     capabilities: [{
-        browserName: 'chrome'
+		maxInstances: 1,
+        browserName: 'chrome',
+            'goog:chromeOptions': {
+                args: [
+                    '--lang=en-US', // Set Chrome UI and locale
+                    '--disable-popup-blocking',
+                    '--disable-default-apps',
+                ],
+                prefs: {
+                    'protocol_handler.external': false,
+                    'intl.accept_languages': 'en-US,en'
+                }
+            }
     }],
 
     //
@@ -102,7 +114,7 @@ export const config: WebdriverIO.Config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ['visual', 'cucumber-viewport-logger'],
+    // services: ['visual', 'cucumber-viewport-logger'],
 
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -125,12 +137,12 @@ export const config: WebdriverIO.Config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: ['spec',['allure', {outputDir: 'allure-results'}]],
+    reporters: ['allure', {outputDir: 'allure-results'}],
 
     // If you are using Cucumber you need to specify the location of your step definitions.
     cucumberOpts: {
         // <string[]> (file/dir) require files before executing features
-        require: [''],
+        require: ['./features/step-definitions/steps.js'],
         //require: ['./features/step-definitions/*.js'],
         // <boolean> show full backtrace for errors
         backtrace: false,
@@ -149,7 +161,7 @@ export const config: WebdriverIO.Config = {
         // <boolean> fail if there are any undefined or pending steps
         strict: false,
         // <string> (expression) only execute the features or scenarios with tags matching the expression
-        tagExpression: '@regression',
+        tagExpression: '',
         // <number> timeout for step definitions
         timeout: 60000,
         // <boolean> Enable this config to treat undefined definitions as warnings.
@@ -255,8 +267,10 @@ export const config: WebdriverIO.Config = {
      * @param {number}             result.duration  duration of scenario in milliseconds
      * @param {object}             context          Cucumber World object
      */
-    // afterStep: function (step, scenario, result, context) {
-    // },
+     afterStep: async function (step, scenario, result, context) {
+    // 
+	await allureReporter.addAttachment("Screenshot", Buffer.from(await browser.takeScreenshot(), 'base64'),"image/png")
+	},
     /**
      *
      * Runs after a Cucumber Scenario.

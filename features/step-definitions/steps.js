@@ -3,7 +3,7 @@ import { Given, When, Then } from '@wdio/cucumber-framework';
 import { getTestData } from '../../utils/dataHelper.js';
 import { getNameMail } from '../../utils/dataHelper.js';
 import { expect, $, browser } from '@wdio/globals'
-import { handlePopupAccept, enterKeysinMSWORD , clickenterButton } from '../../utils/robotkey.js';
+//import { handlePopupAccept, enterKeysinMSWORD , clickenterButton } from '../../utils/robotkey.js';
 import { and } from 'wdio-wait-for';
 
 
@@ -1007,7 +1007,7 @@ Then('I double click to open the created work item', async() => {
 
 Then('I close the worklist.', async() => {
   const closeSelector = "//div[contains(text(),'LUNATE - ERONBOARD')]/../../..//*[@src='assets/icons/close.svg']";
-  await browser.pause(2000);
+  await browser.pause(4000);
   const closeEl = await $(closeSelector); await closeEl.waitForExist({ timeout: 20000 });
   await highlight(closeEl);
   await browser.pause(1000);

@@ -1,0 +1,12 @@
+{
+  "objectTypeID": "Reward",
+  "content": {
+    "Origin": "API",
+    "Name": "BK Apparel",
+    "ExternalID": "45672",
+    "RewardType": "stock_control",
+    "RewardExpiration": "2025-09-06T04:00:00.000Z",
+    "RewardCost": "",
+    "DaysAvailable": ""
+    }
+}

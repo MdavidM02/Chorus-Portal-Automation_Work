@@ -1,0 +1,18 @@
+{
+  "objectTypeID": "Store",
+  "content": {
+    "Origin": "API",
+    "StoreCode": "NW-RJ457",
+    "Name": "Store NW-RJ457",
+    "Description": "Store6 Description",
+    "Address": 
+      {
+        "Street":"Street1",
+        "City":"City1",
+        "StateProvince": "State1",
+        "Country": "BRAZIL",
+        "PostalCode": "12345"
+      },
+    "IsParticipating": true
+  }
+}
