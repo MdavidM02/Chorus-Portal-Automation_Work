@@ -1,1 +1,0 @@
-https://loyalty-qa.app.fielo.com/dx/api/application/v2/objects/STE6TG95YWx0eV9fU3RvcmVfNjg5ZGUzMTdmNjgxNGYwMGE2ODkyMjFj/actions/DeleteObject

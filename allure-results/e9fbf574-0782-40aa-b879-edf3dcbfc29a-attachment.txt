@@ -1,5 +1,0 @@
-{
-  "dataViewParameters": {
-    "ExternalID": "45671"
-  }
-}

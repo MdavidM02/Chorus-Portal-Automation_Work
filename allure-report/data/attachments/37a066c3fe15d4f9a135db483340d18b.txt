@@ -1,5 +1,0 @@
-{
-  "dataViewParameters": {
-    "ProductCode": "19524"
-  }
-}

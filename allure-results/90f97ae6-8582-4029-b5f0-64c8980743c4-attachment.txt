@@ -1,1 +1,0 @@
-{"errorDetails":[{"message":"Invalid ProgramID","localizedValue":"Invalid ProgramID","erroneousInputOutputFieldInPage":"","errorClassification":"","erroneousInputOutputIdentifier":".ProgramBusinessID","id":"https://msgs.pega.io/v1/types/DX/codes/1001/"}],"localizedValue":"Validation fail","errorClassification":"Validation fail"}

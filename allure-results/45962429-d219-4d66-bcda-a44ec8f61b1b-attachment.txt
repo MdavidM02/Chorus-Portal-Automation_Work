@@ -1,1 +1,0 @@
-https://loyalty-qa.app.fielo.com/dx/api/application/v2/data_views/GetProductByBusinessKeys

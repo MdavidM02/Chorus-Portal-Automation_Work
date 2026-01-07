@@ -1,1 +1,0 @@
-{"content":{"Description":"Store4 Description","Name":"Store NW-RJ458","StoreCode":"NW-RJ458","Address":{"Street":"Street1","City":"City1","StateProvince":"State1","PostalCode":"12345","Country":"BRAZIL"},"IsParticipating":true},"pageInstructions":[]}

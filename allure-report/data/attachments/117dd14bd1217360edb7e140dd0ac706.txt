@@ -1,5 +1,0 @@
-{
-  "dataViewParameters": {
-    "Voucher Code": "2312312a"
-  }
-}

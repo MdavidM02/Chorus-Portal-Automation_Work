@@ -1,5 +1,0 @@
-{
-  "dataViewParameters": {
-    "StoreCode": "NW-RJ460"
-  }
-}

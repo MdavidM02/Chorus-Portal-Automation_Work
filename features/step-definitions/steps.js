@@ -148,6 +148,31 @@ async function selectByVisibleText(selectSel, visibleText) {
   console.log(`Selected by visible text: ${visibleText}`);
 }
 
+async function slowSendKeys(selector, text, delay = 500, endKey = null) {
+  console.log(`Typing "${text}" into: ${selector}`);
+  const el = await $(selector);
+  await el.waitForExist({ timeout: 60000 });
+  await highlight(el);
+  await el.click();
+
+  // for (const ch of text) {
+  //   await browser.keys(ch);
+  //   await browser.pause(delay);
+  // }
+
+  // if (endKey) {
+  //   console.log(`Sending key: ${endKey}`);
+  //   await browser.keys(endKey);
+  // }
+await el.clearValue();
+await el.setValue(text);
+
+if (endKey) {
+  await browser.keys(endKey);
+}
+
+}
+
 // Functions and imports ends.
 
 Given('I launch the Chorus portal for {string}', async function(testcaseID) {
@@ -1536,6 +1561,3 @@ Then('Paste the Wrong Object Key and Link it.', async() => {
   await $("//button[text()='Next']").then(async el => { await el.waitForClickable({ timeout: 20000 }); await highlight(el); await el.click(); });
   await browser.pause(2000);
 })
-
-
-
