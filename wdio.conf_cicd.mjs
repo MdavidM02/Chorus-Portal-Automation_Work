@@ -10,27 +10,32 @@ export const config = {
     maxInstances: 10,
 
     capabilities: [{
-        browserName: 'chrome',
-        'goog:chromeOptions': {
-            args: [
-                '--no-first-run',
-                '--headless',
-                '--no-default-browser-check',
-                '--disable-application-cache',
-                '--disable-cache',
-                '--disk-cache-size=0',
-                `--user-data-dir=/tmp/chrome-profile-${Date.now()}`,
-                '--lang=en-US',
-                '--disable-popup-blocking',
-                '--disable-default-apps',
-            ],
-            prefs: {
-                'protocol_handler.external': false,
-                'intl.accept_languages': 'en-US,en'
-            }
-        }
+    maxInstances: 4,
+    browserName: 'chrome',
+    'goog:chromeOptions': {
+        args: [
+            '--headless=new',                     // use new headless mode
+            '--disable-gpu',                      // GPU disabled for CI
+            '--no-sandbox',                       // bypass sandbox
+            '--disable-dev-shm-usage',            // fix /dev/shm memory issues
+            '--no-first-run',
+            '--no-default-browser-check',
+            '--disable-application-cache',
+            '--disable-cache',
+            '--disk-cache-size=0',
+            '--user-data-dir=C:\\Jenkins_Home\\ChromeProfile', // fixed Windows path
+            '--lang=en-US',
+            '--disable-popup-blocking',
+            '--disable-default-apps',
+        ],
+        prefs: {
+            'protocol_handler.external': false,
+            'intl.accept_languages': 'en-US,en'
+        },
+        binary: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe' // stable Chrome binary
+    }
     }],
-
+    
     logLevel: 'info',
     bail: 0,
     waitforTimeout: 10000,
@@ -59,7 +64,7 @@ export const config = {
         snippets: true,
         source: true,
         strict: false,
-        tagExpression: '@b2bonboarding-scenario1',
+        tagExpression: '@core-scenario2',
         timeout: 60000,
         strict: false,
         ignoreUndefinedDefinitions: true

@@ -58,7 +58,8 @@ export const config = {
         snippets: true,
         source: true,
         strict: false,
-        tagExpression: '@b2bonboarding-scenario1',
+        //tagExpression: '@core-scenario2',
+        tags:'',
         timeout: 60000,
         strict: false,
         ignoreUndefinedDefinitions: true
