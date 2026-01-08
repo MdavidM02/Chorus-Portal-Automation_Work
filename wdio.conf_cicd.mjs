@@ -22,7 +22,6 @@ export const config = {
                 '--disable-application-cache',
                 '--disable-cache',
                 '--disk-cache-size=0',
-                '--user-data-dir=C:\\Jenkins_Home\\ChromeProfile',
                 '--lang=en-US',
                 '--disable-popup-blocking',
                 '--disable-default-apps',
