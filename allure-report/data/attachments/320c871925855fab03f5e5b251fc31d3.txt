@@ -1,1 +1,0 @@
-https://awddev.trialclient1.awdcloud.co.uk/awdServer/awd/services/v1/user/types?type=case%2Ctransaction&businessarea=CARRENTAL&privilegeType=Update&startswith=&categorycode=&pagesize=25&page=1

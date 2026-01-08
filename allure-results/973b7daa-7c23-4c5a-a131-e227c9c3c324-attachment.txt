@@ -1,1 +1,0 @@
-{"createList":[{"createInstance":{"businessAreaName":"CARRENTAL","typeName":"CARBOOKING","statusName":"INDEXED","processName":"Car Rental - Main Process","assignTo":"JPANICKE","fieldValues":{"fieldValue":[]}}}]}
