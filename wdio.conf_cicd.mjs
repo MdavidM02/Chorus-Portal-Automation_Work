@@ -10,32 +10,32 @@ export const config = {
     maxInstances: 10,
 
     capabilities: [{
-    maxInstances: 4,
-    browserName: 'chrome',
-    'goog:chromeOptions': {
-        args: [
-            '--headless=new',                     // use new headless mode
-            '--disable-gpu',                      // GPU disabled for CI
-            '--no-sandbox',                       // bypass sandbox
-            '--disable-dev-shm-usage',            // fix /dev/shm memory issues
-            '--no-first-run',
-            '--no-default-browser-check',
-            '--disable-application-cache',
-            '--disable-cache',
-            '--disk-cache-size=0',
-            '--user-data-dir=C:\\Jenkins_Home\\ChromeProfile', // fixed Windows path
-            '--lang=en-US',
-            '--disable-popup-blocking',
-            '--disable-default-apps',
-        ],
-        prefs: {
-            'protocol_handler.external': false,
-            'intl.accept_languages': 'en-US,en'
-        },
-        binary: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe' // stable Chrome binary
-    }
+        maxInstances: 4,
+        browserName: 'chrome',
+        'goog:chromeOptions': {
+            args: [
+                '--headless=new',
+                '--disable-gpu',
+                '--no-sandbox',
+                '--disable-dev-shm-usage',
+                '--no-first-run',
+                '--no-default-browser-check',
+                '--disable-application-cache',
+                '--disable-cache',
+                '--disk-cache-size=0',
+                '--user-data-dir=C:\\Jenkins_Home\\ChromeProfile',
+                '--lang=en-US',
+                '--disable-popup-blocking',
+                '--disable-default-apps',
+            ],
+            prefs: {
+                'protocol_handler.external': false,
+                'intl.accept_languages': 'en-US,en'
+            },
+            binary: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
+        }
     }],
-    
+
     logLevel: 'info',
     bail: 0,
     waitforTimeout: 10000,
@@ -45,17 +45,16 @@ export const config = {
     framework: 'cucumber',
 
     reporters: [
-        ['allure', { 
+        ['allure', {
             outputDir: 'allure-results',
             disableMochaHooks: true,
             issueLinkTemplate: null,
             tmsLinkTemplate: null
-        },]
+        }]
     ],
 
     cucumberOpts: {
         require: ['./features/step-definitions/steps.js'],
-        //require: ['./features/step-definitions/chorus_B2BOnboarding_steps.js'],
         backtrace: false,
         requireModule: [],
         dryRun: false,
@@ -66,35 +65,34 @@ export const config = {
         strict: false,
         tagExpression: '@core-scenario2',
         timeout: 60000,
-        strict: false,
         ignoreUndefinedDefinitions: true
     },
 
     // ===== Hooks =====
 
     /**
-     * Runs once per scenario
+     * Take screenshot for EVERY step (passed or failed)
      */
-//     afterStep: async function (step, scenario, result, context) {
-//         //Take screenshot for all steps (or only for failed steps)
-//         const screenshot = await browser.takeScreenshot();
-//         await allureReporter.addAttachment(
-//            'Screenshot',
-//            Buffer.from(screenshot, 'base64'),
-//            'image/png'
-//         );
-//    },
-    // other hooks can be added as needed
-
     afterStep: async function (step, scenario, result) {
-    if (result.error) {
         const screenshot = await browser.takeScreenshot();
+
+        const status = result.error ? 'FAILED' : 'PASSED';
+        const stepName = step.text.replace(/[^a-zA-Z0-9 ]/g, '');
+
         await allureReporter.addAttachment(
-            'Failure Screenshot',
+            `${status} - ${stepName}`,
             Buffer.from(screenshot, 'base64'),
             'image/png'
         );
-    }
-}
+    },
 
+    /**
+     * Runs after each Cucumber scenario
+     * Ensures all browser windows are closed and session is terminated
+     */
+    afterScenario: async function () {
+        if (browser.sessionId) {
+            await browser.deleteSession();
+        }
+    }
 }

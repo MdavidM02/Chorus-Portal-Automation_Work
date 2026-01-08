@@ -39,17 +39,16 @@ export const config = {
     framework: 'cucumber',
 
     reporters: [
-        ['allure', { 
+        ['allure', {
             outputDir: 'allure-results',
             disableMochaHooks: true,
             issueLinkTemplate: null,
             tmsLinkTemplate: null
-        },]
+        }]
     ],
 
     cucumberOpts: {
         require: ['./features/step-definitions/steps.js'],
-        //require: ['./features/step-definitions/chorus_B2BOnboarding_steps.js'],
         backtrace: false,
         requireModule: [],
         dryRun: false,
@@ -59,37 +58,35 @@ export const config = {
         source: true,
         strict: false,
         tagExpression: '@core-scenario2',
-        tags:'',
         timeout: 60000,
-        strict: false,
         ignoreUndefinedDefinitions: true
     },
 
     // ===== Hooks =====
 
     /**
-     * Runs once per scenario
+     * Take screenshot for EVERY step (passed or failed)
      */
-//     afterStep: async function (step, scenario, result, context) {
-//         //Take screenshot for all steps (or only for failed steps)
-//         const screenshot = await browser.takeScreenshot();
-//         await allureReporter.addAttachment(
-//            'Screenshot',
-//            Buffer.from(screenshot, 'base64'),
-//            'image/png'
-//         );
-//    },
-    // other hooks can be added as needed
-
     afterStep: async function (step, scenario, result) {
-    if (result.error) {
         const screenshot = await browser.takeScreenshot();
+
+        const status = result.error ? 'FAILED' : 'PASSED';
+        const stepName = step.text.replace(/[^a-zA-Z0-9 ]/g, '');
+
         await allureReporter.addAttachment(
-            'Failure Screenshot',
+            `${status} - ${stepName}`,
             Buffer.from(screenshot, 'base64'),
             'image/png'
         );
-    }
-}
+    },
 
+    /**
+     * Runs after each Cucumber scenario
+     * Closes all browser windows and ends the session
+     */
+    afterScenario: async function () {
+        if (browser.sessionId) {
+            await browser.deleteSession();
+        }
+    }
 }
