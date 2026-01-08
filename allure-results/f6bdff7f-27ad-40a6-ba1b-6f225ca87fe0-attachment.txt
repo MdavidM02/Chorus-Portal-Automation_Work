@@ -1,1 +1,0 @@
-https://awddev.trialclient1.awdcloud.co.uk/awdServer/awd/services/v1/user/businessareas

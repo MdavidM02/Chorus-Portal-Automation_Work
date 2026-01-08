@@ -1561,3 +1561,219 @@ Then('Paste the Wrong Object Key and Link it.', async() => {
   await $("//button[text()='Next']").then(async el => { await el.waitForClickable({ timeout: 20000 }); await highlight(el); await el.click(); });
   await browser.pause(2000);
 })
+
+Given('the user login to the Chorus Portal', async() => {
+  console.log(`SCRIPTLOG:Launching Chorus portal for environment`);
+  await browser.maximizeWindow();
+  await browser.url("https://awddev.trialclient1.awdcloud.co.uk/awd/portal/login.html")
+  await expect(browser).toHaveUrl("https://awddev.trialclient1.awdcloud.co.uk/awd/portal/login.html")
+  await expect(browser).toHaveTitle("Sign on to Chorus");
+  await browser.pause(2000);
+  console.log(`SCRIPTLOG:Logging in with username and password`);
+  await $("#user-name").setValue("JPANICKE")
+  await $("#password").setValue("Ai4P@ssword5")
+  await $("#sign-on").click()
+  await browser.pause(3000); 
+})
+
+When('they Search for the Work Item created', async() => {
+  // Search
+    await browser.execute(() => { document.body.style.zoom = '70%'; });
+    console.log('Clicking Search button');
+    await (await $('#search-btn')).waitForClickable({ timeout: 30000 });
+    await $('#search-btn').click();
+
+    await browser.execute(() => { document.body.style.zoom = '70%'; });
+    await selectByVisibleText(
+      "//label[normalize-space()='Available Searches']/../select",
+      'Work Search'
+    );
+
+    await browser.pause(2000);
+
+    await slowSendKeys(
+      "//div[@id='businessArea_1_']//div//input[@type='text']",
+      'SAMPLEBA',
+      100,
+      'Enter'
+    );
+
+    await browser.pause(2000);
+
+    //Work Type
+    await slowSendKeys(
+      "//div[@id='workType_1_']//div//input[@type='text']",
+      'DUEDILIGNC',
+      100,
+      'Enter'
+    );
+
+    await browser.pause(2000);
+
+    await selectByVisibleText("//select[@id='OPER_1_']", 'GT - >');
+
+    // Date now - 2 min
+    const dt = new Date(Date.now() - 2 * 60000);
+    const formatted =
+      dt.getFullYear() +
+      '-' +
+      String(dt.getMonth() + 1).padStart(2, '0') +
+      '-' +
+      String(dt.getDate()).padStart(2, '0') +
+      '-' +
+      String(dt.getHours()).padStart(2, '0') +
+      '.' +
+      String(dt.getMinutes()).padStart(2, '0');
+
+    console.log('Using date filter:', formatted);
+    await slowSendKeys("//input[@id='LDAT_1_']", formatted, 500);
+
+    console.log('Clicking Search');
+    await (await $('#Search_1_')).click();
+    
+    await browser.pause(4000); 
+})
+
+Then('they Open the Work Item and then Lock it', async() => {
+    console.log('Opening first active card');
+    await browser.execute(() => { document.body.style.zoom = '70%'; });
+    await (
+      await $("//div[@aria-labelledby='p-accordiontab-1']//button[@class='canUpdate']")
+    ).click();
+
+    console.log('Double-clicking SAMPLEBA - DUEDILIGNC');
+    await browser.execute(() => { document.body.style.zoom = '70%'; });
+    await (
+      await $(
+        "(//div[@id='active-cards-container']//div[contains(@id,'p-accordiontab')])[2]//span[normalize-space()='SAMPLEBA - DUEDILIGNC']"
+      )
+    ).doubleClick();
+
+    await browser.pause(5000);
+})
+    
+
+Then('they check the company name and registration number and Submit', async() => {
+    // Window handling
+    console.log('Handling popup window');
+    await browser.execute(() => { document.body.style.zoom = '70%'; });
+    const parent = await browser.getWindowHandle();
+    const handles = await browser.getWindowHandles();
+
+    // for (const h of handles) {
+    //   await browser.switchToWindow(h);
+    //   const title = await browser.getTitle();
+    //   if (title.includes('Chorus Content Viewer')) {
+    //     console.log('Closing window:', title);
+    //     await browser.closeWindow();
+    //     break;
+    //   }
+    // }
+
+
+    if (handles.length > 1) {
+      await browser.closeWindow();
+      await browser.switchToWindow(parent);
+    }
+
+    await browser.switchToWindow(parent);
+    console.log('Switched back to main window');
+    await browser.execute(() => { document.body.style.zoom = '70%'; });
+    await browser.pause(3000);
+    console.log('Clicking Verify');
+    await (await $("//button[normalize-space()='Verify']")).click();
+    await browser.pause(2000);
+})
+
+Then('the System validate the company name and registration number, and generate a message if conditions are met', async() => {
+    console.log('Submitting to create due diligence');
+    await browser.execute(() => { document.body.style.zoom = '70%'; });
+    await (
+      await $("//button[normalize-space()='Submit for due diligence']")
+    ).click();
+    await browser.pause(2000);
+})
+
+Then('they open the new diligence transaction is created and attached to the main Case', async() => {
+  console.log('Expanding child workflow');
+    await browser.execute(() => { document.body.style.zoom = '70%'; });
+    await (
+      await $("//button[.//svg-icon[@src='assets/icons/triangle-arrow-down.svg']]")
+    ).click();
+    await browser.pause(5000);
+
+    console.log('Opening Validate Company Info');
+    await browser.execute(() => { document.body.style.zoom = '70%'; });
+    await (await $("//div[contains(text(),' Validate Company Info')]")).doubleClick();
+    await browser.pause(2000);
+
+    console.log('Clicking canUpdate for DUEDILIGNC');
+    await browser.execute(() => { document.body.style.zoom = '70%'; });
+    await (
+      await $("//div[contains(text(),'SAMPLEBA - DUEDILIGNC')]/..//button[@class='canUpdate']")
+    ).click();
+    await browser.pause(2000);
+})
+
+Then('they open the work item and review the questionnaire to ensure all details are captured correctly', async() => { 
+    
+    await browser.pause(5000);
+    console.log('Double-clicking SAMPLEBA - DUEDILIGNC');
+    await browser.execute(() => { document.body.style.zoom = '70%'; });
+    await (
+      await $(
+        "(//div[@id='active-cards-container']//div[contains(@id,'p-accordiontab')])[2]//span[normalize-space()='SAMPLEBA - DUEDILIGNC']"
+      )
+    ).doubleClick();
+
+    console.log('Locking workitem');
+    await (await $("//div[contains(text(),'SAMPLEBA - DUEDILIGNC')]/..//button[@class='canUpdate']")).click();
+
+    await browser.execute(() => { document.body.style.zoom = '70%'; });
+    console.log('Clicking NextStep');
+    await (await $("//button[@name='NextStep']")).click();
+    await browser.pause(2000);
+})
+
+Then('they Select Accept and Click the Submit button to proceed with Comments', async() => {
+    await browser.execute(() => { document.body.style.zoom = '60%'; });
+    console.log('Entering comments');
+    await slowSendKeys("//textarea[@awdname='comments']", 'Accepted', 50);
+    await browser.pause(2000);
+
+    console.log('Submitting NextStep');
+    await browser.execute(() => { document.body.style.zoom = '60%'; });
+    await (await $("//button[@name='NextStep']")).click();
+    await browser.pause(2000);
+})
+
+Then('the system displays the alert to indicate that the case has legal issues and customer wants to proceed further', async() => {
+    console.log('Accepting to proceed further');
+    await browser.execute(() => { document.body.style.zoom = '60%'; });
+    await (await $("//input[@value='Yes']")).click();
+    await browser.pause(2000);
+
+    console.log('Click Next');
+    await browser.execute(() => { document.body.style.zoom = '60%'; });
+    await (await $("//button[text()='Next']")).click();
+    await browser.pause(2000);
+})
+
+Then('they Select Reject and Click the Submit button with Comments', async() => {
+
+    console.log('Selecting Reject');
+    await browser.execute(() => { document.body.style.zoom = '60%'; });
+    await (await $("//label[@name='Reject']//div")).click();
+    await browser.pause(2000);
+
+    await browser.execute(() => { document.body.style.zoom = '60%'; });
+    console.log('Entering comments');
+    await slowSendKeys("//textarea[@awdname='comments']", 'Rejected because of Pending ongoing litigation', 50);
+    await browser.pause(2000);
+
+    console.log('Submitting NextStep');
+    await browser.execute(() => { document.body.style.zoom = '60%'; });
+    await (await $("//button[@name='NextStep']")).click();
+    await browser.pause(2000);
+})
+

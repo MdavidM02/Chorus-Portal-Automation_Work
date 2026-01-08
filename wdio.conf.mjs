@@ -49,7 +49,7 @@ export const config = {
 
     cucumberOpts: {
         require: ['./features/step-definitions/steps.js'],
-        require: ['./features/step-definitions/chorus_B2BOnboarding_steps.js'],
+        //require: ['./features/step-definitions/chorus_B2BOnboarding_steps.js'],
         backtrace: false,
         requireModule: [],
         dryRun: false,
@@ -58,7 +58,7 @@ export const config = {
         snippets: true,
         source: true,
         strict: false,
-        //tagExpression: '@core-scenario2',
+        tagExpression: '@core-scenario2',
         tags:'',
         timeout: 60000,
         strict: false,
