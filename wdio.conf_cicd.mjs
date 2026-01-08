@@ -88,9 +88,9 @@ export const config = {
      * Runs after each Cucumber scenario
      * Ensures all browser windows are closed and session is terminated
      */
-    afterScenario: async function () {
-        if (browser.sessionId) {
-            await browser.deleteSession();
-        }
-    }
+    // afterScenario: async function () {
+    //     if (browser.sessionId) {
+    //         await browser.deleteSession();
+    //     }
+    // }
 }
