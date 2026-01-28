@@ -41,6 +41,7 @@ export const config = {
     reporters: [
         ['allure', {
             outputDir: 'allure-results',
+            useCucumberStepReporter: true,
             disableMochaHooks: true,
             issueLinkTemplate: null,
             tmsLinkTemplate: null
@@ -48,7 +49,13 @@ export const config = {
     ],
 
     cucumberOpts: {
-        require: ['./features/step-definitions/steps.js'],
+        // require: ['./features/step-definitions/steps.js'],
+        require: [
+        './features/step-definitions/steps.js',
+        //'./features/step-definitions/ancile_quote_steps.js',
+        //'./features/step-definitions/ancile_quote_steps_api.js',
+        //'./features/step-definitions/steps_api.js',
+        ],
         backtrace: false,
         requireModule: [],
         dryRun: false,
@@ -57,9 +64,10 @@ export const config = {
         snippets: true,
         source: true,
         strict: false,
-        tagExpression: '@core-scenario2',
+        tagExpression: '',
         timeout: 60000,
         ignoreUndefinedDefinitions: true
+        //ignoreUndefinedDefinitions: false
     },
 
     // ===== Hooks =====
@@ -84,9 +92,9 @@ export const config = {
      * Runs after each Cucumber scenario
      * Closes all browser windows and ends the session
      */
-    afterScenario: async function () {
-        if (browser.sessionId) {
-            await browser.deleteSession();
-        }
-    }
+    // afterScenario: async function () {
+    //     if (browser.sessionId) {
+    //         await browser.deleteSession();
+    //     }
+    // }
 }
