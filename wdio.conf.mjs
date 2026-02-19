@@ -7,7 +7,7 @@ export const config = {
     runner: 'local',
     specs: ['./features/**/*.feature'],
     exclude: [],
-    maxInstances: 10,
+    maxInstances: 1,
 
     capabilities: [{
         browserName: 'chrome',
@@ -51,7 +51,8 @@ export const config = {
     cucumberOpts: {
         // require: ['./features/step-definitions/steps.js'],
         require: [
-        './features/step-definitions/steps.js',
+        './features/step-definitions/carbon_emissions.js',
+        //'./features/step-definitions/steps.js',
         //'./features/step-definitions/ancile_quote_steps.js',
         //'./features/step-definitions/ancile_quote_steps_api.js',
         //'./features/step-definitions/steps_api.js',
@@ -65,7 +66,7 @@ export const config = {
         source: true,
         strict: false,
         tagExpression: '',
-        timeout: 60000,
+        timeout: 600000,
         ignoreUndefinedDefinitions: true
         //ignoreUndefinedDefinitions: false
     },
