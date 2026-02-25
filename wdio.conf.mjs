@@ -50,8 +50,9 @@ export const config = {
     cucumberOpts: {
         // require: ['./features/step-definitions/steps.js'],
         require: [
+        './features/step-definitions/insurance_quote_steps.js',
         './features/step-definitions/carbon_emissions.js',
-        //'./features/step-definitions/steps.js',
+        './features/step-definitions/steps.js',
         //'./features/step-definitions/ancile_quote_steps.js',
         //'./features/step-definitions/ancile_quote_steps_api.js',
         //'./features/step-definitions/steps_api.js',

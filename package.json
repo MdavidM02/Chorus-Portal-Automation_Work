@@ -10,7 +10,7 @@
     "core": "wdio wdio.conf.js --cucumberOpts.tags='@core'",
     "uxbuilder": "wdio wdio.conf.js --cucumberOpts.tags='@uxbuilder'",
     "allure": "rmdir /s /q allure-report && npx allure generate ./allure-results -o ./allure-report && npx allure open ./allure-report",
-    "apichorus": "cd utils && python -m pytest api_framework_tests_v2.py -q --tb=short --alluredir=../allure-results",
+    "apichecks": "cd utils && python -m pytest api_framework_tests_v2.py -q --tb=short --alluredir=../allure-results",
     "apifielo": "cd utils && python -m pytest test_Fielo_API_tests.py -q --tb=short --alluredir=../allure-results",
     "cicd": "cd C:/Chorus Portal Automation_Work/CI_CD && java -jar jenkins.war --httpPort=9090"
   },
@@ -512,5 +512,9 @@
     "yup": "^1.2.0",
     "zip-stream": "^6.0.1",
     "zod": "^3.25.76"
-  }
+  },
+  "overrides": {
+	    "htmlparser2": "^9.0.0",
+    	"entities": "^4.5.0"
+    }
 }

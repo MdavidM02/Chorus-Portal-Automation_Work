@@ -49,7 +49,6 @@ MAX_SAMPLE_ELEMENTS = 3
 TOKEN_URL = "https://loyalty-qa.app.fielo.com/dx/uas/oauth/token"
 CLIENT_ID = "xqmZxEEi07svmnTk"
 CLIENT_SECRET = "tfBACoKc4VTHQLCeAE27L3CKySGCinl6"
-
 _cached_oauth_token = None
 
 
@@ -94,8 +93,6 @@ ENVIRONMENT_URLS = {
 # ============================================================
 
 _env_file_created = False
-
-
 def create_allure_environment_file(env, url, user):
 
     global _env_file_created
@@ -124,13 +121,10 @@ def create_allure_environment_file(env, url, user):
     ) as f:
         f.write(content)
 
-
 # ============================================================
 # Excel Utilities
 # ============================================================
-
 # Change index if needed as per the data is coming from the Excel spreadsheet.Sheet number starts at 0.
-
 SHEET_INDEX = 8
 
 # =======================================================================
@@ -182,7 +176,6 @@ def collect_test_cases() -> list:
             result.append(row[tc])
 
     return result
-
 
 # ============================================================
 # Excel Generation Helpers
@@ -252,7 +245,6 @@ def update_generated_file(
 
     wb.save(GENERATED_FILE)
 
-
 # ================================================================================================================================================================
 # URL Builder. If the excel data has base_url starting with http://localhost and env variable has a value in Excel, 
 # then local host will get replaced by what is mentioned in the env variable. For e.g. base_url is http://localhost/awdServer/awd/services/v1/user/businessareas
@@ -281,8 +273,6 @@ def build_final_url(base_url, env, test_data):
         .replace("//", "/")
         .replace("__TMP__", "://")
     )
-
-
 # ======================================================================================================
 # Unified Authentication Abstraction - combining the HTTPBasicAuth and Explicit Bearer token from Excel
 # ======================================================================================================
@@ -291,7 +281,6 @@ def build_final_url(base_url, env, test_data):
 class AuthContext:
     headers: Dict[str, str]
     auth: Optional[HTTPBasicAuth]
-
 
 def resolve_auth_context(test_data):
 
@@ -429,7 +418,6 @@ def test_api_validation(
     except Exception:
         pass
 
-
     # ========================================================
     # Test Data Automatic Generation Logic
     # ========================================================
@@ -498,12 +486,28 @@ def test_api_validation(
         assert len(entries) >= int(check_count)
         allure.attach(str(len(entries)), "Total Entries Returned", allure.attachment_type.TEXT)
 
+    failures = []
+
+    # We can add any number checks for the API response. Need to put Excel columns starting with 'check_element'.
     for key, raw_value in test_data.items():
         if key.startswith("check_element"):
             value = str(raw_value).strip('"')
             if is_valid_check(value) and info:
-                with allure.step(f"Checking presence of '{value}' in response"):
-                    assert value in json.dumps(info)
+                try:
+                    with allure.step(f"Checking presence of '{value}' in response"):
+                        assert value in json.dumps(info)
+                except AssertionError:
+                    failures.append(f"'{value}' not found in response")
+                    # Mark the current step as failed in Allure
+                    allure.attach(f"Value '{value}' not found in response", 
+                                name=f"{value} check failed", 
+                                attachment_type=allure.attachment_type.TEXT)
 
+    # Set Allure test title and description
     allure.dynamic.title(f"{test_case_id} - {method} {base_url}")
     allure.dynamic.description("Unified authentication API validation")
+
+    # Fail overall test if there were any failures
+    if failures:
+        failure_message = "\n".join(failures)
+        assert False, f"Some checks failed:\n{failure_message}"
