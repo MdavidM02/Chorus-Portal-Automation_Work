@@ -300,7 +300,7 @@ def resolve_auth_context(test_data):
 
     token = test_data.get("token")
     user = test_data.get("username")
-    pwd = test_data.get("password")
+    pwd = "Micky$007"
 
     # --------------------------------------------------
     # 1. HTTP Basic Authentication
